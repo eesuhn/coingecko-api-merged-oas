@@ -1,0 +1,11 @@
+# Byte-compiled
+__pycache__/
+
+# Environment
+.venv/
+
+# Mac
+.DS_Store/
+
+# SDK placeholder
+sdk/
