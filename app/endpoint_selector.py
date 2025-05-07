@@ -28,9 +28,9 @@ class EndpointSelector:
         )
         save_json(
             selected_oas,
-            filename="docs/selected-oas"
+            filename="docs/selected-coingecko"
         )
-        print_success(f"Selected OAS at {get_package_root() / 'docs/selected-oas.json'}")
+        print_success(f"Selected OAS at {get_package_root() / 'docs/selected-coingecko.json'}")
 
     def select_endpoints(
         self,
