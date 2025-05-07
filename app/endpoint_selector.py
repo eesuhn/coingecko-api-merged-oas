@@ -75,19 +75,21 @@ class EndpointSelector:
                 if isinstance(operation, dict):
                     referenced_schema_names.update(self.extract_schema_refs(operation))
         processed_schemas = set()
-        schemas_to_process = referenced_schema_names.copy()
+        schemas_to_process = sorted(list(referenced_schema_names))
         while schemas_to_process:
-            schema_name = schemas_to_process.pop()
+            schema_name = schemas_to_process.pop(0)
             if schema_name in processed_schemas:
                 continue
             processed_schemas.add(schema_name)
             if schema_name in all_schemas:
                 new_refs = self.extract_schema_refs(all_schemas[schema_name])
-                for ref in new_refs:
-                    if ref not in processed_schemas:
-                        schemas_to_process.add(ref)
-        selected_schemas = {
-            name: all_schemas[name] for name in processed_schemas if name in all_schemas
-        }
+                new_refs_to_add = [
+                    ref for ref in new_refs if ref not in processed_schemas and ref not in schemas_to_process
+                ]
+                schemas_to_process.extend(sorted(new_refs_to_add))
+        selected_schemas = {}
+        for name in sorted(processed_schemas):
+            if name in all_schemas:
+                selected_schemas[name] = all_schemas[name]
         print_info(f"Selected {len(selected_schemas)} schemas")
         return selected_schemas
