@@ -8,6 +8,14 @@ from .utils import (
 
 
 class EndpointSelector:
+    def __init__(
+        self,
+        non_onchain_count: int = 10,
+        onchain_count: int = 5
+    ) -> None:
+        self.non_onchain_count = non_onchain_count
+        self.onchain_count = onchain_count
+
     def run(self) -> None:
         target_oas = load_json(filename="docs/coingecko")
         selected_oas = load_json(filename="docs/default-oas")
@@ -36,10 +44,10 @@ class EndpointSelector:
             else:
                 non_onchain_paths[path] = details
         selected_onchain = dict(
-            list(onchain_paths.items())[:25]
+            list(onchain_paths.items())[:self.onchain_count]
         )
         selected_non_onchain = dict(
-            list(non_onchain_paths.items())[:25]
+            list(non_onchain_paths.items())[:self.non_onchain_count]
         )
         selected_paths = {**selected_non_onchain, **selected_onchain}
         print_info(f"Selected {len(selected_paths)} paths: {len(selected_onchain)} from /onchain")

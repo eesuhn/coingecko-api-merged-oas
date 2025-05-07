@@ -14,6 +14,20 @@ class Main:
             description="Merge CoinGecko OAS"
         )
         args_parser.add_argument(
+            "-NO", "--non-onchain",
+            dest="non_onchain_count",
+            type=int,
+            default=10,
+            help="Number of non-onchain endpoints to select",
+        )
+        args_parser.add_argument(
+            "-O", "--onchain",
+            dest="onchain_count",
+            type=int,
+            default=5,
+            help="Number of onchain endpoints to select",
+        )
+        args_parser.add_argument(
             "options",
             type=str,
             nargs="+",
@@ -26,11 +40,15 @@ class Main:
         self.args = args_parser.parse_args()
 
     def parse_options(self) -> None:
+        oas_merger = OASMerger()
+        endpoint_selector = EndpointSelector(
+            non_onchain_count=self.args.non_onchain_count,
+            onchain_count=self.args.onchain_count
+        )
         option_handlers = {
-            "merge": OASMerger,
-            "select": EndpointSelector
+            "merge": oas_merger,
+            "select": endpoint_selector
         }
         for option in self.args.options:
-            handler = option_handlers.get(option)
-            if handler:
-                handler().run()
+            if option in option_handlers:
+                option_handlers[option].run()
