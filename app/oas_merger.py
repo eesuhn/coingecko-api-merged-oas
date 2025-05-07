@@ -52,17 +52,20 @@ class OASMerger:
 
     def merge_paths(self) -> dict:
         paths = {}
+        paths_count = 0
         for path, item in self.coingecko_pro.get("paths", {}).items():
             if path in paths:
                 raise ValueError(f"Duplicate path: {path}")
             paths[path] = item
+            paths_count += 1
         for path, item in self.coingecko_onchain_pro.get("paths", {}).items():
             new_path = "/onchain" + path if not path.startswith("/onchain") else path
             if new_path in paths:
                 raise ValueError(f"Duplicate path: {new_path}")
             paths[new_path] = item
+            paths_count += 1
         self.check_operation_id(paths)
-        print_info("Merged OAS paths")
+        print_info(f"Merged {paths_count} OAS paths")
         return paths
 
     def check_operation_id(
@@ -80,11 +83,13 @@ class OASMerger:
 
     def merge_schemas(self) -> dict:
         schemas = {}
+        schemas_count = 0
         for source in (self.coingecko_pro, self.coingecko_onchain_pro):
             components = source.get("components", {})
             for key, schema in components.get("schemas", {}).items():
                 if key in schemas:
                     raise ValueError(f"Duplicate schema: {key}")
                 schemas[key] = schema
-        print_info("Merged OAS schemas")
+                schemas_count += 1
+        print_info(f"Merged {schemas_count} OAS schemas")
         return schemas
