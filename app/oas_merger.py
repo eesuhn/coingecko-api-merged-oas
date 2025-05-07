@@ -52,20 +52,22 @@ class OASMerger:
 
     def merge_paths(self) -> dict:
         paths = {}
-        paths_count = 0
+        pro_paths_count = 0
+        onchain_paths_count = 0
         for path, item in self.coingecko_pro.get("paths", {}).items():
             if path in paths:
                 raise ValueError(f"Duplicate path: {path}")
             paths[path] = item
-            paths_count += 1
+            pro_paths_count += 1
         for path, item in self.coingecko_onchain_pro.get("paths", {}).items():
             new_path = "/onchain" + path if not path.startswith("/onchain") else path
             if new_path in paths:
                 raise ValueError(f"Duplicate path: {new_path}")
             paths[new_path] = item
-            paths_count += 1
+            onchain_paths_count += 1
         self.check_operation_id(paths)
-        print_info(f"Merged {paths_count} OAS paths")
+        paths_count = pro_paths_count + onchain_paths_count
+        print_info(f"Merged {paths_count} OAS paths: {onchain_paths_count} from /onchain")
         return paths
 
     def check_operation_id(
@@ -83,13 +85,18 @@ class OASMerger:
 
     def merge_schemas(self) -> dict:
         schemas = {}
-        schemas_count = 0
-        for source in (self.coingecko_pro, self.coingecko_onchain_pro):
-            components = source.get("components", {})
-            for key, schema in components.get("schemas", {}).items():
-                if key in schemas:
-                    raise ValueError(f"Duplicate schema: {key}")
-                schemas[key] = schema
-                schemas_count += 1
-        print_info(f"Merged {schemas_count} OAS schemas")
+        pro_schemas_count = 0
+        onchain_schemas_count = 0
+        for key, schema in self.coingecko_pro.get("components", {}).get("schemas", {}).items():
+            if key in schemas:
+                raise ValueError(f"Duplicate schema: {key}")
+            schemas[key] = schema
+            pro_schemas_count += 1
+        for key, schema in self.coingecko_onchain_pro.get("components", {}).get("schemas", {}).items():
+            if key in schemas:
+                raise ValueError(f"Duplicate schema: {key}")
+            schemas[key] = schema
+            onchain_schemas_count += 1
+        schemas_count = pro_schemas_count + onchain_schemas_count
+        print_info(f"Merged {schemas_count} OAS schemas: {onchain_schemas_count} from /onchain")
         return schemas
