@@ -46,7 +46,7 @@ class OASMerger:
             data=oas,
             file_path="docs/coingecko"
         )
-        ColorPrint.print_success(f"Merged OAS at {RootPath.get_package_root() / 'docs/coingecko.json'}")
+        ColorPrint.print_success(f"Merged OAS saved to {RootPath.get_package_root() / 'docs/coingecko.json'}")
 
     def merge_paths(self) -> dict:
         paths = {}

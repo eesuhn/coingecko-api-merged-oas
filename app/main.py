@@ -3,6 +3,11 @@ import argparse
 from .oas_merger import OASMerger
 from .endpoint_selector import EndpointSelector
 
+DESIRED_PATHS = [
+    "/ping",
+    "/coins/list"
+]
+
 
 class Main:
     def __init__(self) -> None:
@@ -12,20 +17,6 @@ class Main:
     def parse_args(self) -> None:
         args_parser = argparse.ArgumentParser(
             description="Merge CoinGecko OAS"
-        )
-        args_parser.add_argument(
-            "-NO", "--non-onchain",
-            dest="non_onchain_count",
-            type=int,
-            default=10,
-            help="Number of non-onchain endpoints to select",
-        )
-        args_parser.add_argument(
-            "-O", "--onchain",
-            dest="onchain_count",
-            type=int,
-            default=5,
-            help="Number of onchain endpoints to select",
         )
         args_parser.add_argument(
             dest="options",
@@ -42,8 +33,7 @@ class Main:
     def parse_options(self) -> None:
         oas_merger = OASMerger()
         endpoint_selector = EndpointSelector(
-            non_onchain_count=self.args.non_onchain_count,
-            onchain_count=self.args.onchain_count
+            paths_to_select=DESIRED_PATHS
         )
         option_handlers = {
             "merge": oas_merger,
