@@ -1,3 +1,7 @@
+"""
+python-starter
+    by @eesuhn
+"""
 import app
 
 

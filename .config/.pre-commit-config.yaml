@@ -20,3 +20,13 @@ repos:
       ]
     types: [python]
     files: ^app/
+
+  # - id: mypy
+  #   name: mypy
+  #   entry: .venv/bin/mypy
+  #   language: system
+  #   args: [
+  #       "--config-file=./.config/.mypy.ini"
+  #     ]
+  #   types: [python]
+  #   files: ^app/

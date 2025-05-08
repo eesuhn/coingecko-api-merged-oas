@@ -1,11 +1,13 @@
 # Byte-compiled
 __pycache__/
 
+# Cache
+.mypy_cache/
+
 # Environment
 .venv/
+.env*
+!.env.example
 
 # Mac
 .DS_Store/
-
-# SDK placeholder
-sdk/
