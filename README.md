@@ -1,7 +1,6 @@
-- [coingecko.json](https://raw.githubusercontent.com/eesuhn/coingecko-api-merged-oas/refs/heads/main/app/docs/coingecko.json)
-- [selected-coingecko.json](https://raw.githubusercontent.com/eesuhn/coingecko-api-merged-oas/refs/heads/main/app/docs/selected-coingecko.json)
+[coingecko.json](https://raw.githubusercontent.com/eesuhn/coingecko-api-merged-oas/refs/heads/main/app/docs/coingecko.json)
 
-### List of Selected Endpoints for `selected-coingecko.json`
+### List of Selected Endpoints for [`selected-coingecko-*.json`](./app/docs)
 
 ```sh
 # General
