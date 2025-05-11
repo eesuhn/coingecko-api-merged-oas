@@ -5,7 +5,7 @@ from .utils import (
 )
 from typing import List, Dict, Any, Set
 
-SELECTED_OAS_FILE = "docs/selected-coingecko"
+SELECTED_OAS_FILE = "docs/selected-coingecko-pro-demo"
 
 
 class EndpointSelector:
