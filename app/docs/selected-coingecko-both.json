@@ -2239,7 +2239,7 @@
             "type": "array",
             "description": "coin status updates",
             "items": {
-              "type": "object"
+              "type": "string"
             },
             "example": []
           },
